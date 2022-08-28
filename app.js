@@ -1,5 +1,24 @@
-var monkeyWindow;
+function passwordVisibilty1() {
+  var x = document.getElementById("password_1");
+  if (x.type === "password" ) {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+}
 
+function passwordVisibilty2() {
+  var y = document.getElementById("password_2");
+  if (y.type === "password" ) {
+    y.type = "text";
+  } else {
+    y.type = "password";
+  }
+}
+
+// -------------------------------------------------------------------------------
+
+var monkeyWindow;
 function newWindow() {
   // var w = window.open("signin.html");
   // w = window.open(
@@ -11,11 +30,14 @@ function newWindow() {
   monkeyWindow.location.href = "signPages/signin.html";
 }
 
-// var submit_1 = document.getElementById("submit_1");
-// submit_1.onclick = function () {
-//   var email_1 = document.getElementById("email_1").value;
-//   console.log(email_1);
-// };
+var userSignUpDetail;
+var signup;         //for obj
+function SignUP(fname, lname, email, pass) {
+  this.firstName = fname;
+  this.lastName = lname;
+  this.email = email;
+  this.password = pass;
+  }
 
 function signUp() {
   var fName_1 = document.getElementById("fName_1");
@@ -27,7 +49,6 @@ function signUp() {
   lName_1.value;
   email_1.value;
   password_1.value;
-  var signup; //for obj
   if (!(fName_1.value && lName_1.value && email_1.value && password_1.value)) {
     fName_1.placeholder = "must be fill";
     lName_1.placeholder = "must be fill";
@@ -47,13 +68,24 @@ function signUp() {
     console.log(email_1.value);
     console.log(password_1.value);
 
+      // signup= new SignUP(fName_1.value, lName_1.value, email_1.value, password_1.value)
+      //   console.log(signup);
     signup = {
       firstname: fName_1.value,
       lastname: lName_1.value,
       email: email_1.value,
       password: password_1.value,
     };
-    // localStorage.setItem("signupDetails", JSON.stringify(signup));
+
+    // var signString=JSON.stringify(signup)
+
+    // userSignUpDetail=[]
+
+    // userSignUpDetail.push(signString)
+
+  //  localStorage.setItem("signupDetails",userSignUpDetail );
+
+    localStorage.setItem("signupDetails", JSON.stringify(signup));
     // localStorage.removeItem("signupDetails")
 
     credentialAlert1.innerHTML = "";
@@ -75,6 +107,7 @@ function signUp() {
 
 //----------------------------------- Sign in -----------------------------------------------------
 
+var savedSignupDetails;
 function signIn() {
   var email_2 = document.getElementById("email_2");
   var password_2 = document.getElementById("password_2");
@@ -84,6 +117,7 @@ function signIn() {
   var userEmail;
   var userPassword;
   var signin; //for obj
+
   if (!(email_2.value && password_2.value)) {
     email_2.placeholder = "must be fill";
     password_2.placeholder = "must be fill";
@@ -98,12 +132,13 @@ function signIn() {
   } else {
     userEmail = email_2.value;
     userPassword = password_2.value;
+
     signin = {
       email: email_2.value,
       password: password_2.value,
     };
     // localStorage.removeItem("signupDetails")
-    var savedSignupDetails = JSON.parse(localStorage.getItem("signupDetails"));
+    savedSignupDetails = JSON.parse(localStorage.getItem("signupDetails"));
     // console.log(savedSignupDetails)
 
     if (
@@ -111,18 +146,21 @@ function signIn() {
       userPassword === savedSignupDetails["password"]
     ) {
       console.log("matched");
-      monkeyWindow.close();
+      window.close()
+          var qWindow=window.open()
+          qWindow.location.href="quiz.html";
+   
+
+
     } else {
-      // credentialAlert2.innerHTML = "invalid credentials";
       console.log("Not matched");
+      credentialAlert2.innerHTML = "invalid credentials";
 
-      // abdulmoiz15000@gmail.com
-
-      // for(key in savedSignupDetails){
-      //   console.log(key);
-      // }
     }
-    credentialAlert2.innerHTML = "";
+   
+    setTimeout(function () {
+      credentialAlert2.innerHTML = "";
+    }, 3500);
     email_2.value = "";
     password_2.value = "";
     email_2.placeholder = "";
@@ -139,3 +177,11 @@ function signIn() {
 
 // localStorage.setItem("moiz","main")
 // localStorage.removeItem("moiz")
+
+// ------------------------------------- QUIZ ---------------------------------------
+
+savedSignupDetails = JSON.parse(localStorage.getItem("signupDetails"));
+// console.log(savedSignupDetails.firstname)
+
+var userNameAL=document.getElementById("userNameAL")
+userNameAL.innerHTML="Welcome! "+savedSignupDetails.firstname+" "+savedSignupDetails.lastname
